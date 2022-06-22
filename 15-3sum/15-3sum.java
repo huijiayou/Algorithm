@@ -15,6 +15,9 @@ class Solution {
             if (cur.size() > 0) {
                 set.addAll(cur);
             }
+            while (i + 1 < nums.length - 2 && nums[i] == nums[i + 1]) {
+                i++;
+            }
         }
         return new ArrayList<>(set);
     }
@@ -24,7 +27,15 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
         while (i < j) {
             if (nums[i] + nums[j] == target) {
-                res.add(Arrays.asList(nums[start - 1], nums[i++], nums[j--]));
+                res.add(Arrays.asList(nums[start - 1], nums[i], nums[j]));
+                while (i + 1 < j && nums[i] == nums[i + 1]) {
+                    i++;
+                }
+                while (j - 1 > i && nums[j] == nums[j - 1]) {
+                    j--;
+                }
+                i++;
+                j--;
             } else if (nums[i] + nums[j] < target) {
                 i++;
             } else {
