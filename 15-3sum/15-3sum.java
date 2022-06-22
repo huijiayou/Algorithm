@@ -27,15 +27,13 @@ class Solution {
         List<List<Integer>> res = new ArrayList<>();
         while (i < j) {
             if (nums[i] + nums[j] == target) {
-                res.add(Arrays.asList(nums[start - 1], nums[i], nums[j]));
-                while (i + 1 < j && nums[i] == nums[i + 1]) {
+                res.add(Arrays.asList(nums[start - 1], nums[i++], nums[j--]));
+                while (i < j && nums[i - 1] == nums[i]) {
                     i++;
                 }
-                while (j - 1 > i && nums[j] == nums[j - 1]) {
+                while (j > i && nums[j] == nums[j + 1]) {
                     j--;
                 }
-                i++;
-                j--;
             } else if (nums[i] + nums[j] < target) {
                 i++;
             } else {
