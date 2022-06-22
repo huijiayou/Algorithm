@@ -23,12 +23,8 @@ class Solution {
         int j = nums.length - 1;
         List<List<Integer>> res = new ArrayList<>();
         while (i < j) {
-            List<Integer> cur = new ArrayList<>();
             if (nums[i] + nums[j] == target) {
-                cur.add(nums[start - 1]);
-                cur.add(nums[i++]);
-                cur.add(nums[j--]);
-                res.add(cur);
+                res.add(Arrays.asList(nums[start - 1], nums[i++], nums[j--]));
             } else if (nums[i] + nums[j] < target) {
                 i++;
             } else {
