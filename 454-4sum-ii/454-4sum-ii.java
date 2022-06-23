@@ -16,7 +16,7 @@ class Solution {
         int res = 0;
         for (int n3 : nums3) {
             for (int n4 : nums4) {
-                res += map.getOrDefault(-(n3 + n4), 0);
+                res += map.getOrDefault(-n3 - n4, 0);
             }
         }
         return res;
