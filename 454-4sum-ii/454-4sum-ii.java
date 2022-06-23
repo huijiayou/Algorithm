@@ -16,10 +16,7 @@ class Solution {
         int res = 0;
         for (int n3 : nums3) {
             for (int n4 : nums4) {
-                int remains = 0 - (n3 + n4);
-                if (map.containsKey(remains)) {
-                    res += map.get(remains);
-                }
+                res += map.getOrDefault(-(n3 + n4), 0);
             }
         }
         return res;
