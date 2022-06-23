@@ -4,10 +4,14 @@ class Solution {
         Set<List<Integer>> res = new HashSet<>();
         for (int i = 0; i < nums.length - 3; i++) {
             for (int j = i + 1; j < nums.length - 2; j++) {
-                long remains = (long)target - (nums[i] + nums[j]);
-                List<List<Integer>> cur = twoSum(nums, remains, i, j);
-                if (cur.size() > 0) {
-                    res.addAll(cur);
+                if (i == 0 || nums[i] != nums[i - 1]) {
+                    if (j == i + 1 || nums[j] != nums[j - 1]) {
+                        long remains = (long)target - (nums[i] + nums[j]);
+                        List<List<Integer>> cur = twoSum(nums, remains, i, j);
+                        if (cur.size() > 0) {
+                            res.addAll(cur);
+                        }
+                    }
                 }
             }
         }
