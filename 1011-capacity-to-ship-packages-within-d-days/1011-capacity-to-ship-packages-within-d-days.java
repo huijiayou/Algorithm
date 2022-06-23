@@ -25,7 +25,7 @@ class Solution {
                 max = mid;
             }
         }
-        return min;
+        return max;
     }
     private boolean couldFinished(int[] weights, int capacity, int days) {
         int daysNeed = 0;
