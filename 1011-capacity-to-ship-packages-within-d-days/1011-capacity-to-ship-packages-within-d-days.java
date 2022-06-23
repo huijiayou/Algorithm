@@ -11,10 +11,10 @@
 
 class Solution {
     public int shipWithinDays(int[] weights, int days) {
-        int min = Integer.MAX_VALUE;
+        int min = Integer.MIN_VALUE;
         int max = 0;
         for (int item : weights) {
-            min = Math.min(min, item);
+            min = Math.max(min, item);
             max += item;
         }
         while (min < max - 1) {
@@ -34,8 +34,6 @@ class Solution {
             if (load == item) {
                 daysNeed++;
                 load = capacity;
-            } else if (item > capacity) {
-                return false;
             } else if (load < item) {
                 daysNeed++;
                 load = capacity - item;
