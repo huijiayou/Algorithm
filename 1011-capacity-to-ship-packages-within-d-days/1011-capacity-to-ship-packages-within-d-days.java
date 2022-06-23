@@ -17,15 +17,15 @@ class Solution {
             min = Math.max(min, item);
             max += item;
         }
-        while (min < max - 1) {
+        while (min < max) {
             int mid = min + (max - min) / 2;
             if (!couldFinished(weights, mid, days)) {
-                min = mid;
+                min = mid + 1;
             } else {
                 max = mid;
             }
         }
-        return couldFinished(weights, min, days) ? min : max;
+        return min;
     }
     private boolean couldFinished(int[] weights, int capacity, int days) {
         int daysNeed = 0;
