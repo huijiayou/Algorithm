@@ -30,8 +30,7 @@ class LRUCache {
             return -1;
         }
         Node node = map.get(key);
-        remove(node.key);
-        add(key, node.value);
+        moveToFront(key, node.value);
         return node.value;
     }
     
