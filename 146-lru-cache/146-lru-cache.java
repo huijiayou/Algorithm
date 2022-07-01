@@ -37,11 +37,26 @@ class LRUCache {
     
     public void put(int key, int value) {
         if (map.containsKey(key)) {
-            remove(key);
-        } else if (map.size() == capacity) {
-            remove(tail.prev.key);
+            moveToFront(key, value);
+        } else {
+            if (map.size() == capacity) {
+                remove(tail.prev.key);
+            }
+            add(key, value);
         }
-        add(key, value);
+    }
+    
+    private void moveToFront(int key, int value) {
+        Node node = map.get(key);
+        node.value = value;
+        Node prev = node.prev;
+        prev.next = node.next;
+        node.next.prev = prev;
+        
+        node.next = head.next;
+        head.next.prev = node;
+        head.next = node;
+        node.prev = head;
     }
     
     private void remove(int key) {
