@@ -1,2 +1,2 @@
-# DSA_Dream_Company
+# DSA_Practice
 Algorithm and Data Structure Practice
