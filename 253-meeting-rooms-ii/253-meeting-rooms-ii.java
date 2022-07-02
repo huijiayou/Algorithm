@@ -1,17 +1,25 @@
 class Solution {
     public int minMeetingRooms(int[][] intervals) {
-        List<int[]> list = new ArrayList<>();
+        int n = intervals.length;
+        int[] starts = new int[n];
+        int[] ends = new int[n];
+        int i = 0;
         for (int[] interval : intervals) {
-            list.add(new int[]{interval[0], 1});
-            list.add(new int[]{interval[1], -1});           
+            starts[i] = interval[0];
+            ends[i] = interval[1];
+            i++;
         }
-        Collections.sort(list, (int[] a, int[] b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
+        Arrays.sort(starts);
+        Arrays.sort(ends);
         int count = 0;
-        int res = 0;
-        for (int[] item : list) {
-            count += item[1];
-            res = Math.max(res, count);
+        int pre = 0;
+        for (int j = 0; j < n; j++) {
+            count++;
+            if (ends[pre] <= starts[j]) {
+                count--;
+                pre++;
+            }
         }
-        return res;
+        return count;
     }
 }
