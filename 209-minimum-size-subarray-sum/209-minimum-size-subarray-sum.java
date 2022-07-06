@@ -12,15 +12,16 @@
 
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
+        int l = 0, r = 1;
+        int sum = nums[l];
         int count = Integer.MAX_VALUE;
-        int total = 0;
-        int i = 0;
-        int j = 0;
-        while (j < nums.length) {
-            total += nums[j++];
-            while (total >= target) {
-                count = Math.min(count, j - i);
-                total -= nums[i++];
+        while(r < nums.length) {
+            if (sum < target) {
+                sum += nums[r++];
+            }
+            while (sum >= target) {
+                count = Math.min(count, r - l);
+                sum -= nums[l++];
             }
         }
         return count == Integer.MAX_VALUE ? 0 : count;
