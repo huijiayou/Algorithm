@@ -14,41 +14,40 @@
  * }
  */
 class Solution {
-    static class Pair {
-        int row;
-        int col;
-        int val;
-        public Pair(int row, int col, int val) {
-            this.row = row;
-            this.col = col;
-            this.val = val;
-        }
-    }
     public List<List<Integer>> verticalOrder(TreeNode root) {
-        Map<Integer, List<Pair>> map = new HashMap<>();
         List<List<Integer>> res = new ArrayList<>();
-        helper(root, 0, 0, map);
+        if (root == null) {
+            return res;
+        }
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        bfs(root, map);
         List<Integer> keys = new ArrayList<>(map.keySet());
         Collections.sort(keys);
-        for (Integer key : keys) {
-            List<Pair> list = map.get(key);
-            Collections.sort(list, (Pair a, Pair b) -> a.row - b.row);
-            List<Integer> cur = new ArrayList<>();
-            for (Pair i : list) {
-                cur.add(i.val);
-            }
-            res.add(cur);
+        for (int key : keys) {
+            res.add(map.get(key));
         }
         return res;
     }
-    private void helper(TreeNode root, int row, int col, Map<Integer, List<Pair>> map) {
-        if (root == null) return;
-        if (!map.containsKey(col)) {
-            map.put(col, new ArrayList<>());
+    private void bfs(TreeNode root, Map<Integer, List<Integer>> map) {
+        Queue<TreeNode> q1 = new ArrayDeque<>();
+        Queue<Integer> q2 = new ArrayDeque<>();
+        q1.offer(root);
+        q2.offer(0);
+        while (!q1.isEmpty()) {
+            TreeNode cur = q1.poll();
+            int col = q2.poll();
+            if (!map.containsKey(col)) {
+                map.put(col, new ArrayList<>());
+            }
+            map.get(col).add(cur.val);
+            if (cur.left != null) {
+                q1.offer(cur.left);
+                q2.offer(col - 1);
+            }
+            if (cur.right != null) {
+                q1.offer(cur.right);
+                q2.offer(col + 1);
+            }
         }
-        map.get(col).add(new Pair(row, col, root.val));
-        
-        helper(root.left, row + 1, col - 1, map);
-        helper(root.right, row + 1, col + 1, map);
     }
 }
