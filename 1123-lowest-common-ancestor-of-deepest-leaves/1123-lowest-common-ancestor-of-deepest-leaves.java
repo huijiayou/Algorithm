@@ -28,7 +28,6 @@ class Solution {
     }
     private Pair helper(TreeNode root) {
         if (root == null) return new Pair(root, 0);
-        if (root.left == null && root.right == null) return new Pair(root, 1);
         
         Pair left = helper(root.left);
         Pair right = helper(root.right);
