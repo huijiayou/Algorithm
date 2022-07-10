@@ -15,22 +15,15 @@
  */
 class Solution {
     public int longestZigZag(TreeNode root) {
-        if (root.left == null && root.right == null) {
-            return 0;
-        }
         int[] res = {0};
-        helper(root, true, res, 0);
-        return res[0] - 1;
+        helper(root, true, res);
+        return res[0];
     }
-    private void helper(TreeNode root, boolean fromLeft, int[] res, int level) {
-        res[0] = Math.max(res[0], level);
-        if (root == null) return;
-        if (fromLeft) {
-            helper(root.right, false, res, level + 1);
-            helper(root.left, true, res, 1);
-        } else {
-            helper(root.left, true, res, level + 1);
-            helper(root.right, false, res, 1);
-        }
+    private int helper(TreeNode root, boolean fromLeft, int[] res) {
+        if (root == null) return 0;
+        int left = helper(root.left, true, res);
+        int right = helper(root.right, false, res);
+        res[0] = Math.max(res[0], Math.max(left, right));
+        return fromLeft ? right + 1 : left + 1;
     }
 }
