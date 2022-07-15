@@ -6,7 +6,7 @@ class Solution {
         for (int i = 0; i < s.length(); i++) {
             char cur = s.charAt(i);
             map.put(cur, map.getOrDefault(cur, 0) + 1);
-            while (map.size() > k) {
+            if (map.size() > k) {
                 char ch = s.charAt(left++);
                 int count = map.get(ch) - 1;
                 if (count == 0) map.remove(ch);
