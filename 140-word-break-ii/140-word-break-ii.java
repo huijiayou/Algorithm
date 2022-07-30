@@ -30,10 +30,6 @@ class Solution {
         return res;
     }
     private void dfs(String s, List<String> res, StringBuilder sb, TrieNode node, int index) {
-        if (index == s.length()) {
-            res.add(sb.toString());
-            return;
-        }
         char cur = s.charAt(index);
         if (node == null || node.key != cur) return;
         if (node.count == 0) {
