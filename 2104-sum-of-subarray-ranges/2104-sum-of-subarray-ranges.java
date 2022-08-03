@@ -1,25 +1,37 @@
 class Solution {
     public long subArrayRanges(int[] nums) {
-        Deque<Integer> max = new ArrayDeque<>();
-        Deque<Integer> min = new ArrayDeque<>();
-        int n = nums.length;
+        /*
+            we use monotonic stack go over elements twice to get the left and right boundaries for the current element that 
+            the current element is the smallest or largest in this range
+            2 [4 5 3 6 5] 1
+                   c
+            l      i       r
+            i-l means how many positions that we can place [
+            r-i means how many positions that we can place]
+            we choose one from left side and one from right side and multiple them
         
-        long total = 0;
-        for (int i = 0; i < n; i++) {
-            max.clear();
-            min.clear();
-            for (int j = i; j < n; j++) {
-                while (!max.isEmpty() && max.peekLast() <= nums[j]) {
-                    max.pollLast();
-                }
-                max.offerLast(nums[j]);
-                while(!min.isEmpty() && min.peekLast() >= nums[j]) {
-                    min.pollLast();
-                }
-                min.offerLast(nums[j]);
-                total += (max.peekFirst() - min.peekFirst());
+            then sum += element * (i - l) * (r - i)
+            then sum -= element * (i' - l') * (r' - i')
+        */
+        
+        Deque<Integer> min = new ArrayDeque<>();
+        Deque<Integer> max = new ArrayDeque<>();
+        long sum = 0;
+        int n = nums.length;
+        for (int i = 0; i <= n; i++) {
+            while(!max.isEmpty() && (i == n || nums[max.peekLast()] < nums[i])) {
+                int cur = max.pollLast();
+                int left = max.isEmpty() ? -1 : max.peekLast();
+                sum += (long)nums[cur] * (cur - left) * (i - cur);
             }
+            max.offerLast(i);
+            while(!min.isEmpty() && (i == n || nums[min.peekLast()] > nums[i])) {
+                int cur = min.pollLast();
+                int left = min.isEmpty() ? -1 : min.peekLast();
+                sum -= (long)nums[cur] * (cur - left) * (i - cur);
+            }
+            min.offerLast(i);
         }
-        return total;
+        return sum;
     }
 }
