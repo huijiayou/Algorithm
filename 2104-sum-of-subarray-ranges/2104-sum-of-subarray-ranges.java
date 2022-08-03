@@ -19,13 +19,13 @@ class Solution {
         long sum = 0;
         int n = nums.length;
         for (int i = 0; i <= n; i++) {
-            while(!max.isEmpty() && (i == n || nums[max.peekLast()] < nums[i])) {
+            while(!max.isEmpty() && (i == n || nums[max.peekLast()] <= nums[i])) {
                 int cur = max.pollLast();
                 int left = max.isEmpty() ? -1 : max.peekLast();
                 sum += (long)nums[cur] * (cur - left) * (i - cur);
             }
             max.offerLast(i);
-            while(!min.isEmpty() && (i == n || nums[min.peekLast()] > nums[i])) {
+            while(!min.isEmpty() && (i == n || nums[min.peekLast()] >= nums[i])) {
                 int cur = min.pollLast();
                 int left = min.isEmpty() ? -1 : min.peekLast();
                 sum -= (long)nums[cur] * (cur - left) * (i - cur);
