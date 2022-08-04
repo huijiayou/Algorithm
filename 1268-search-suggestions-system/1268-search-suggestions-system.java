@@ -1,67 +1,32 @@
 class Solution {
-    static class TrieNode {
-        private char letter;
-        private TrieNode[] children;
-        boolean isWord;
-        public TrieNode(char letter) {
-            this.letter = letter;
-            children = new TrieNode[26];
-        }
-    }
-    private TrieNode getTrie(String[] words) {
-        TrieNode root = new TrieNode('/');
-        for (String str : words) {
-            insert(root, str, 0);
-        }
-        return root;
-    }
-    private void insert(TrieNode root, String word, int index) {
-        if (index == word.length()) {
-            root.isWord = true;
-            return;
-        }
-        if (root.children[word.charAt(index) - 'a'] == null) {
-            TrieNode node = new TrieNode(word.charAt(index));
-            root.children[word.charAt(index) - 'a'] = node;
-        }
-        insert(root.children[word.charAt(index) - 'a'], word, index + 1);
-    }
     public List<List<String>> suggestedProducts(String[] products, String searchWord) {
-        TrieNode root = getTrie(products);
+        /*
+            for from index i in search word to end
+                two pointers
+                - left if product[left].charAt(i) is different and left is smaller then products length left++
+                - right if product[right].charAt(i) is different and right >= 0 products length right++
+                return elements from left to left + 3/ right
+        */
+        Arrays.sort(products);
         List<List<String>> res = new ArrayList<>();
-        List<String> temp = new ArrayList<>();
-        for (int i = 0; i < searchWord.length(); i++) {
-            StringBuilder sb = new StringBuilder();
-            TrieNode newRoot = search(root, searchWord.substring(0, i + 1), sb,0);
-            if (newRoot != null) {
-                dfs(newRoot, temp, sb);
+        int n = searchWord.length();
+        int len = products.length;
+        int left = 0;
+        int right = len - 1;
+        for (int i = 0; i < n; i++) {
+            while (left <= right && (products[left].length() <= i || products[left].charAt(i) != searchWord.charAt(i))) {
+                left++;
             }
-            res.add(new ArrayList<>(temp));
-            temp.clear();
+            while (left <= right && (products[right].length() <= i || products[right].charAt(i) != searchWord.charAt(i))) {
+                right--;
+            }
+            List<String> temp = new ArrayList<>();
+            int min = Math.min(left + 3, right + 1);
+            for (int j = left; j < min; j++) {
+                temp.add(products[j]);
+            }
+            res.add(temp);
         }
         return res;
-    }
-    private TrieNode search(TrieNode root, String word, StringBuilder sb, int index) {
-        if (root == null) return null;
-        if (index == word.length()) return root;
-        if(root.letter != '/') sb.append(root.letter);
-        TrieNode node = search(root.children[word.charAt(index) - 'a'], word, sb,index + 1);
-        return node;
-
-    }
-    private void dfs(TrieNode root, List<String> temp, StringBuilder sb) {
-        if (temp.size() == 3) {
-            return;
-        }
-        sb.append(root.letter);
-        if (root.isWord) {
-            temp.add(sb.toString());
-        }
-        for (int i = 0; i < 26; i++) {
-            if (root.children[i] != null) {
-                dfs(root.children[i], temp, sb);
-            }
-        }
-        sb.deleteCharAt(sb.length() - 1);
     }
 }
