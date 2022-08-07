@@ -32,11 +32,7 @@ class Solution {
     private void dfs(String s, List<String> res, StringBuilder sb, TrieNode node, int index) {
         char cur = s.charAt(index);
         if (node == null || node.key != cur) return;
-        if (node.count == 0) {
-            sb.append(cur);
-            if (index + 1 < s.length()) dfs(s, res, sb, node.children[s.charAt(index + 1) - 'a'], index + 1);
-            sb.deleteCharAt(sb.length() - 1);
-        } else {
+        if (node.count != 0) {
             int size = sb.length();
             sb.append(cur).append(" ");
             if (index + 1 < s.length()) {
@@ -46,10 +42,9 @@ class Solution {
                 res.add(sb.toString());
             }
             sb.setLength(size);
-
-            sb.append(cur);
-            if (index + 1 < s.length()) dfs(s, res, sb, node.children[s.charAt(index + 1)  - 'a'], index + 1);
-            sb.deleteCharAt(sb.length() - 1);
-        }
+        } 
+        sb.append(cur);
+        if (index + 1 < s.length()) dfs(s, res, sb, node.children[s.charAt(index + 1)  - 'a'], index + 1);
+        sb.deleteCharAt(sb.length() - 1);
     }
 }
