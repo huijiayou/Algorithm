@@ -10,7 +10,7 @@ class Solution {
             int reduceTime = time[i] % 60;
             int other = reduceTime == 0 ? 0 : 60 - reduceTime;
             res += map.getOrDefault(other, 0);
-            map.put(time[i] % 60, map.getOrDefault(time[i] % 60, 0) + 1);
+            map.put(reduceTime, map.getOrDefault(reduceTime, 0) + 1);
         }
         return res;
     }
