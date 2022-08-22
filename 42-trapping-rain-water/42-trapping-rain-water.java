@@ -1,19 +1,17 @@
 class Solution {
     public int trap(int[] height) {
-        int left = 0;
         int n = height.length;
-        int right = n - 1;
         int res = 0;
-        int heightLeft = height[left];
-        int heightRight = height[right];
-        while (left < right) {
-            if (heightLeft <= heightRight) {
-                res += heightLeft - height[left++];
-                heightLeft = Math.max(heightLeft, height[left]);
-            } else {
-                res += heightRight - height[right--];
-                heightRight = Math.max(heightRight, height[right]);
+        Deque<Integer> stack = new ArrayDeque<>();
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && height[stack.peekLast()] <= height[i]) {
+                int cur = stack.pollLast();
+                int left = stack.isEmpty() ? 0 : stack.peekLast() + 1;
+                int leftHeight = stack.isEmpty() ? height[cur] : height[stack.peekLast()];
+                int rightHeight = i == n ? 0 : height[i];
+                res += (Math.min(leftHeight, rightHeight) - height[cur]) * (i - left);
             }
+            stack.offerLast(i);
         }
         return res;
     }
