@@ -1,20 +1,16 @@
-/*
-    increasing stack: if cur element is smaller, pop out
-*/
-
 class Solution {
     public int largestRectangleArea(int[] heights) {
+        int res = 0;
+        int n = heights.length;
         Deque<Integer> stack = new ArrayDeque<>();
-        int area = 0;
-        for (int i = 0; i < heights.length + 1; i++) {
-            int height = i == heights.length ? 0 : heights[i];
-            while (!stack.isEmpty() && heights[stack.peekFirst()] > height) {
-                int cur = stack.pollFirst();
-                int start = stack.isEmpty() ? 0 : stack.peekFirst() + 1;
-                area = Math.max(area, heights[cur] * (i - start));
+        for (int i = 0; i <= n; i++) {
+            while (!stack.isEmpty() && (i == n || heights[stack.peekLast()] > heights[i])) {
+                int cur = stack.pollLast();
+                int left = stack.isEmpty() ? -1 : stack.peekLast();
+                res = Math.max(res, (i - left - 1) * heights[cur]);
             }
-            stack.offerFirst(i);
+            stack.offerLast(i);
         }
-        return area;
+        return res;
     }
 }
