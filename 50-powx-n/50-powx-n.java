@@ -7,24 +7,17 @@ class Solution {
         } else if (n == 0) {
             return 1.0;
         }
-        double result = dfs(x, Math.abs(n));
+        long size = Math.abs((long)n);
+        double res = 1.0;
+        while (size > 0) {
+            if (size % 2 != 0) res *= x;
+            size /= 2;
+            x *= x;
+        }
         if (n > 0) {
-            return result;
+            return res;
         } else {
-            return 1.0 / result;
-        }
-    }
-    private double dfs(double x, int n) {
-        if (n == 1) {
-            return x;
-        } else if (n == 0) {
-            return 1.0;
-        }
-        double result = dfs(x, n / 2);
-        if (n % 2 == 0) {
-            return result * result;
-        } else {
-            return result * result * x;
+            return 1 / res;
         }
     }
 }
