@@ -9,22 +9,22 @@ class Solution {
                     - mid * mid > x, right = mid
                     - mid * mid < x, left = mid
                 compare right first, then left
+            
+            - or we can check left <= right and use result to save
+            
         */
-        int left = 0;
+        int left = 1;
         int right = x;
-        while (left < right - 1) {
+        int res = 0;
+        while (left <= right) {
             int mid = left + (right - left) / 2;
-            long power = (long)mid * (long)mid;
-            if (power == x) {
-                return mid;
-            } else if (power > x) {
-                right = mid;
+            if (mid <= x / mid) {
+                res = mid;
+                left = mid + 1;
             } else {
-                left = mid;
+                right = mid - 1;
             }
         }
-        long rightPower = (long)right * (long)right;
-        if (rightPower <= x) return right;
-        return left;
+        return res;
     }
 }
