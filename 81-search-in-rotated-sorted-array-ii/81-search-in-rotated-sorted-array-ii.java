@@ -1,34 +1,40 @@
 class Solution {
     public boolean search(int[] nums, int target) {
-        int n = nums.length;
-        int split = -1;
-        for (int i = 0; i < n - 1; i++) {
-            if (nums[i] > nums[i + 1]) {
-                split = i;
-                break;
-            }
-        }
-        if (split != -1) {
-            if (target >= nums[0] && target <= nums[split]) {
-                return binarySearch(nums, target, 0, split);
-            } else if (target >= nums[split + 1] && target <= nums[n - 1]) {
-                return binarySearch(nums, target, split + 1, n - 1);
-            } else {
-                return false;
-            }
-        } else {
-            return binarySearch(nums, target, 0, n - 1);
-        }
-    }
-    private boolean binarySearch(int[] nums, int target, int left, int right) {
+       /* int left = 0;
+        int right = nums.length - 1;
         while (left <= right) {
             int mid = left + (right - left) / 2;
             if (nums[mid] == target) {
                 return true;
-            } else if (nums[mid] > target) {
-                right = mid - 1;
+            } else if (nums[left] <= nums[mid]) {
+                if (nums[left] <= target && nums[mid] > target) {
+                    right = mid - 1;
+                } else {
+                    left = mid + 1;
+                }
             } else {
-                left = mid + 1;
+                if (nums[mid] < target && nums[right] >= target) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+        }
+        return false;
+        */
+        int l = 0,r = nums.length-1;
+        while(l<=r){
+            int mid = (l+r)/2;
+            if(nums[mid]==target) return true;
+            
+            if(nums[l]<=nums[mid]){
+                if(target>= nums[l] && target<nums[mid])
+                    r = mid-1;
+                else l = l+1;
+            }else{
+                if(target>nums[mid] && target<=nums[r])
+                    l = mid+1;
+                else r = mid-1;
             }
         }
         return false;
