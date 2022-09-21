@@ -2,7 +2,7 @@ class Solution {
     public int numDecodings(String s) {
         int n = s.length();
         if(s.charAt(0) == 0) return 0;
-        int[] dp = new int[n + 1];
+        int[] dp = new int[n];
         // dp[n] is for out of bound purpose
         return dfs(s, 0, dp);
     }
