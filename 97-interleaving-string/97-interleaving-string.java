@@ -8,7 +8,7 @@ class Solution {
     }
     private boolean dfs(String s1, String s2, String s3, int i, int j, int k, boolean[][] invalid) {
         if (invalid[i][j]) return false;
-        if (k == s3.length()) return true;
+        if (s3.length() == k) return true;
         if (i < s1.length() && s1.charAt(i) == s3.charAt(k)) {
             if (dfs(s1, s2, s3, i + 1, j, k + 1, invalid)) {
                 return true;
