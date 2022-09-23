@@ -15,13 +15,26 @@
  */
 class Solution {
     public int minDepth(TreeNode root) {
+        Queue<TreeNode> queue = new ArrayDeque<>();
         if (root == null) return 0;
-        int left = minDepth(root.left);
-        int right = minDepth(root.right);
-        if (left == 0 || right == 0) {
-            return left + right + 1;
-        } else {
-            return Math.min(left, right) + 1;
+        queue.offer(root);
+        int depth = 0;
+        while(!queue.isEmpty()) {
+            int size = queue.size();
+            depth++;
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.left == null && node.right == null) {
+                    return depth;
+                }
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null){
+                    queue.offer(node.right);
+                }
+            }
         }
+        return depth;
     }
 }
