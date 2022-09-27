@@ -2,21 +2,19 @@ class Solution {
     public int numDistinct(String s, String t) {
         int n = s.length();
         int m = t.length();
-        int[][] dp = new int[n + 1][m + 1];
-        for (int i = 0; i < n + 1; i++) {
-            for (int j = 0; j < m + 1; j++) {
-                if (j == 0) {
-                    dp[i][j] = 1;
-                } else if (i == 0) {
-                    dp[i][j] = 0;
-                } else {
-                    dp[i][j] += dp[i - 1][j];
-                    if (s.charAt(i - 1) == t.charAt(j - 1)) {
-                        dp[i][j] += dp[i - 1][j - 1];
-                    }
-                }
-            }
+        Integer[][] dp = new Integer[n][m];
+        return dfs(s, t, 0, 0, dp);
+    }
+    private int dfs(String s, String t, int i, int j, Integer[][] dp) {
+        if (j == t.length()) return 1;
+        if (i == s.length()) return 0;
+        if (dp[i][j] != null) return dp[i][j];
+        int count = 0;
+        if (s.charAt(i) == t.charAt(j)) {
+            count += dfs(s, t, i + 1, j + 1, dp);
         }
-        return dp[n][m];
+        count += dfs(s, t, i + 1, j, dp);
+        dp[i][j] = count;
+        return count;
     }
 }
